@@ -46,3 +46,15 @@ Continuous improvement log. Each session ends with a brief review: what went wel
 
 **What we'll do differently:**
 - The relaxed glob patterns in the test assertions are now more resilient; keep this style for formatting-sensitive output
+
+## 2026-06-06 — Honest project assessment and strategic direction
+
+**What went well:**
+- Candid assessment of project positioning — identified the core gap (point-in-time snapshot vs. trend data) and concrete differentiators
+- Assessment saved to memory and growth ideas captured in NEXT-SESSION.md
+
+**What didn't go well:**
+- Nothing notable — short session, no friction
+
+**What we'll do differently:**
+- If pursuing growth: prioritize time-series tracking as the first differentiator — it's the simplest feature that most clearly separates repostats from `gh repo view`
