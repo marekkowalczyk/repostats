@@ -180,26 +180,54 @@ if [[ "$OUTPUT_FORMAT" == "json" ]]; then
       topics: ($topics | if . == "" then [] else split(", ") end)
     }'
 else
-  cat <<EOF
-## $TODAY — $FULL_REPO
+  echo "## $TODAY — $FULL_REPO"
+  echo
+  echo "> $DESCRIPTION"
+  echo
 
-> $DESCRIPTION
+  # Build table rows (metric|value)
+  rows=(
+    "Stars|$STARS"
+    "Forks|$FORKS"
+    "Open issues|$ISSUES_OPEN"
+    "Closed issues|$ISSUES_CLOSED"
+    "Open PRs|$PRS_OPEN"
+    "Merged PRs|$PRS_MERGED"
+    "Closed PRs|$PRS_CLOSED"
+    "Subscribers|$SUBSCRIBERS"
+    "Language|$LANGUAGE"
+    "License|$LICENSE"
+    "Created|$CREATED"
+    "Last push|$PUSHED"
+  )
 
-| Metric | Value |
-|---|---|
-| Stars | $STARS |
-| Forks | $FORKS |
-| Open issues | $ISSUES_OPEN |
-| Closed issues | $ISSUES_CLOSED |
-| Open PRs | $PRS_OPEN |
-| Merged PRs | $PRS_MERGED |
-| Closed PRs | $PRS_CLOSED |
-| Subscribers | $SUBSCRIBERS |
-| Language | $LANGUAGE |
-| License | $LICENSE |
-| Created | $CREATED |
-| Last push | $PUSHED |
+  # Find max widths (start from header lengths)
+  mw=6   # "Metric"
+  vw=5   # "Value"
+  for row in "${rows[@]}"; do
+    m="${row%%|*}"; v="${row#*|}"
+    (( ${#m} > mw )) && mw=${#m}
+    (( ${#v} > vw )) && vw=${#v}
+  done
 
-$([ -n "$TOPICS" ] && echo "**Topics:** $TOPICS" || echo "**Topics:** —")
-EOF
+  # Print aligned table
+  sep_m=$(printf '%*s' "$mw" '' | tr ' ' '-')
+  sep_v=$(printf '%*s' "$vw" '' | tr ' ' '-')
+  printf '| %-*s | %-*s |\n' "$mw" "Metric" "$vw" "Value"
+  printf '|-%s-|-%s-|\n' "$sep_m" "$sep_v"
+  for row in "${rows[@]}"; do
+    m="${row%%|*}"; v="${row#*|}"
+    if [[ "$v" =~ ^[0-9]+$ ]]; then
+      printf '| %-*s | %*s |\n' "$mw" "$m" "$vw" "$v"
+    else
+      printf '| %-*s | %-*s |\n' "$mw" "$m" "$vw" "$v"
+    fi
+  done
+
+  echo
+  if [[ -n "$TOPICS" ]]; then
+    echo "**Topics:** $TOPICS"
+  else
+    echo "**Topics:** —"
+  fi
 fi
