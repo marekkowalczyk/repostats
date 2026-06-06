@@ -33,3 +33,16 @@ Continuous improvement log. Each session ends with a brief review: what went wel
 **What we'll do differently:**
 - For this machine: use `env -i` prefix when invoking `gh` directly from Claude Code until the shell profile issue is fixed (tracked in `~/repos/system/owner-inbox/2026-06-06-gh-cli-bash-shell-error.md`)
 - When brew is unavailable, clone tools to a persistent location (not `/tmp`) and install with `sudo`
+
+## 2026-06-06 — Align markdown table output for terminal readability
+
+**What went well:**
+- Small, focused session — table alignment shipped in two clean iterations (padding first, then right-justifying numbers)
+- Tests adapted smoothly; glob patterns in bats made them resilient to formatting changes
+- Version bump + tag flowed naturally from the feature work
+
+**What didn't go well:**
+- Tests broke on first try after each formatting change — the exact-match assertions were brittle against whitespace changes
+
+**What we'll do differently:**
+- The relaxed glob patterns in the test assertions are now more resilient; keep this style for formatting-sensitive output

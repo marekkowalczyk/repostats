@@ -42,7 +42,7 @@ The script follows a linear pipeline in `repostats.sh`:
 3. **Repo detection** — parses git remote URL (skipped when `-r` is provided)
 4. **Data collection** — three `gh` calls: repo metadata, issues (grouped by state), PRs (grouped by state)
 5. **Field extraction** — batched `jq` calls with `@tsv` + `read` to minimize subprocesses
-6. **Output** — markdown heredoc or `jq -n` for JSON, selected by `-o` flag
+6. **Output** — aligned markdown table via `printf` or `jq -n` for JSON, selected by `-o` flag
 
 Uses `set -euo pipefail`. Distinct exit codes: 0 (ok), 2 (usage), 3 (missing dependency), 4 (no repo), 5 (API failure). API failures for issues/PRs fall back to empty JSON so partial data still produces output; repo API failure is fatal.
 
