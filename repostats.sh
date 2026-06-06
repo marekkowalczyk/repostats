@@ -9,7 +9,7 @@
 
 set -euo pipefail
 
-VERSION="0.2.0"
+VERSION="1.0.0"
 GH="${GH:-gh}"
 REMOTE_NAME="origin"
 OUTPUT_FORMAT="markdown"
